@@ -14,7 +14,7 @@ public class MembershipRepositoryTest {
     private MembershipRepository membershipRepository;
 
     @Test
-    public void 맴버십등록() {
+    public void 멤버십등록() {
         // given
         final Membership membership = Membership.builder()
                 .userId("userId")
@@ -33,7 +33,7 @@ public class MembershipRepositoryTest {
     }
 
     @Test
-    public void 맴버십이존재하는지테스트() {
+    public void 멤버십이존재하는지테스트() {
         // given
         final Membership membership = Membership.builder()
                 .userId("userId")

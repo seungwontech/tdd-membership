@@ -25,7 +25,7 @@ public class MembershipServiceTest {
     private final Integer point = 10000;
 
     @Test
-    public void 맴버십등록실패_이미존재함() {
+    public void 멤버십등록실패_이미존재함() {
         // given
         doReturn(Membership.builder().build()).when(membershipRepository).findByUserIdAndMembershipType(userId, membershipType);
 
@@ -35,4 +35,5 @@ public class MembershipServiceTest {
         // then
         assertThat(result.getErrorResult()).isEqualTo(MembershipErrorResult.DUPLICATED_MEMBERSHIP_REGISTER);
     }
+
 }
