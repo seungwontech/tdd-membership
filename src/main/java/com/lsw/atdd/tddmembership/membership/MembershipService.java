@@ -11,7 +11,7 @@ public class MembershipService {
 
     private final MembershipRepository membershipRepository;
 
-    public Membership addMembership(final String userId, final MembershipType membershipType, final Integer point) {
+    public MembershipResponse addMembership(final String userId, final MembershipType membershipType, final Integer point) {
 
         final Membership result = membershipRepository.findByUserIdAndMembershipType(userId, membershipType);
 
@@ -26,6 +26,11 @@ public class MembershipService {
                 .membershipType(membershipType)
                 .build();
 
-        return membershipRepository.save(membership);
+        final Membership savedMembership = membershipRepository.save(membership);
+
+        return MembershipResponse.builder()
+                .id(savedMembership.getId())
+                .membershipType(savedMembership.getMembershipType())
+                .build();
     }
 }
