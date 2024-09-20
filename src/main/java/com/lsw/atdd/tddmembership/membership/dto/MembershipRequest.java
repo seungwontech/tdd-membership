@@ -1,5 +1,6 @@
-package com.lsw.atdd.tddmembership.membership;
+package com.lsw.atdd.tddmembership.membership.dto;
 
+import com.lsw.atdd.tddmembership.membership.MembershipType;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;

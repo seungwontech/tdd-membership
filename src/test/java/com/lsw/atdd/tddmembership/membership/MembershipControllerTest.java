@@ -3,6 +3,8 @@ package com.lsw.atdd.tddmembership.membership;
 import com.google.gson.Gson;
 import com.lsw.atdd.tddmembership.exception.MembershipErrorResult;
 import com.lsw.atdd.tddmembership.exception.MembershipException;
+import com.lsw.atdd.tddmembership.membership.dto.MembershipAddResponse;
+import com.lsw.atdd.tddmembership.membership.dto.MembershipRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -47,11 +49,11 @@ public class MembershipControllerTest {
     public void 멤버십등록성공() throws Exception {
         // given
         final String url = "/api/v1/memberships";
-        final MembershipResponse membershipResponse = MembershipResponse.builder()
+        final MembershipAddResponse membershipAddResponse = MembershipAddResponse.builder()
                 .id(-1L)
                 .membershipType(MembershipType.NAVER).build();
 
-        doReturn(membershipResponse).when(membershipService).addMembership("12345", MembershipType.NAVER, 10000);
+        doReturn(membershipAddResponse).when(membershipService).addMembership("12345", MembershipType.NAVER, 10000);
 
         // when
         final ResultActions resultActions = mockMvc.perform(
@@ -64,9 +66,9 @@ public class MembershipControllerTest {
         // then
         resultActions.andExpect(status().isCreated());
 
-        final MembershipResponse response = gson.fromJson(resultActions.andReturn()
+        final MembershipAddResponse response = gson.fromJson(resultActions.andReturn()
                 .getResponse()
-                .getContentAsString(StandardCharsets.UTF_8), MembershipResponse.class);
+                .getContentAsString(StandardCharsets.UTF_8), MembershipAddResponse.class);
 
         assertThat(response.getMembershipType()).isEqualTo(MembershipType.NAVER);
         assertThat(response.getId()).isNotNull();
