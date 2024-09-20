@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.lsw.atdd.tddmembership.exception.MembershipErrorResult;
 import com.lsw.atdd.tddmembership.exception.MembershipException;
 import com.lsw.atdd.tddmembership.membership.dto.MembershipAddResponse;
+import com.lsw.atdd.tddmembership.membership.dto.MembershipDetailResponse;
 import com.lsw.atdd.tddmembership.membership.dto.MembershipRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 import static com.lsw.atdd.tddmembership.membership.MembershipConstants.USER_ID_HEADER;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -43,6 +45,38 @@ public class MembershipControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(target)
                 .setControllerAdvice(new GlobalExceptionHandler())
                 .build();
+    }
+
+    @Test
+    public void 멤버십목록조회실패_사용자식별값이헤더에없음() throws Exception {
+        // given
+        final String url = "/api/v1/memberships";
+
+        // when
+        final ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.get(url)
+        );
+
+        // then
+        resultActions.andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void 멤버십목록조회성공() throws Exception {
+        // given
+        final String url = "/api/v1/memberships";
+        doReturn(Arrays.asList(
+                MembershipDetailResponse.builder().build()
+                , MembershipDetailResponse.builder().build()
+                , MembershipDetailResponse.builder().build()
+        )).when(membershipService).getMembershipList("12345");
+
+        // when
+        final ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.get(url).header(USER_ID_HEADER, "12345")
+        );
+        // then
+        resultActions.andExpect(status().isOk());
     }
 
     @Test
