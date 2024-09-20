@@ -36,4 +36,12 @@ public class MembershipController {
 
         return ResponseEntity.ok(membershipService.getMembershipList(userId));
     }
+
+    @GetMapping("/api/v1/memberships/{id}")
+    public ResponseEntity<MembershipDetailResponse> getMembership(
+            @RequestHeader(USER_ID_HEADER) final String userId,
+            @PathVariable final Long id) {
+
+        return ResponseEntity.ok(membershipService.getMembership(id, userId));
+    }
 }
