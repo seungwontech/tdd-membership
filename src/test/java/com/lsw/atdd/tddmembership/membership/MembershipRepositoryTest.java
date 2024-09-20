@@ -16,6 +16,22 @@ public class MembershipRepositoryTest {
     private MembershipRepository membershipRepository;
 
     @Test
+    public void 멤버십추가후삭제() {
+        // given
+        final Membership naverMembership = Membership.builder()
+                .userId("userId")
+                .membershipType(MembershipType.NAVER)
+                .point(10000)
+                .build();
+
+        final Membership savedMembership = membershipRepository.save(naverMembership);
+
+        // when
+        membershipRepository.deleteById(savedMembership.getId());
+        // then
+    }
+
+    @Test
     public void 멤버십등록() {
         // given
         final Membership membership = Membership.builder()
